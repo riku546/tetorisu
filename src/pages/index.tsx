@@ -4,7 +4,7 @@ import styles from './index.module.css';
 import useGame from '../components/useGame';
 
 const Home = () => {
-  const { board, keyHandler } = useGame();
+  const { board, keyHandler, dropCell } = useGame();
 
   useEffect(() => {
     window.addEventListener('keydown', keyHandler);
@@ -20,9 +20,10 @@ const Home = () => {
         {board.map((row: number[], rowIndex: number) =>
           row.map((cell, cellIndex) => (
             <div
+              onClick={dropCell}
               key={rowIndex - cellIndex}
               className={styles.cell}
-              style={{ backgroundColor: cell === 0 ? ' gray' : cell === 1 ? '#c0c0c0' : '#333333' }}
+              style={{ backgroundColor: cell === 0 ? '' : 'green' }}
             />
           )),
         )}

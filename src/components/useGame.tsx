@@ -19,9 +19,9 @@ const useGame = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 2, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 2, 2, 2, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
   ]);
 
   const [boardUpdated, setBoardUpdate] = useState(false);
@@ -29,8 +29,18 @@ const useGame = () => {
   useEffect(() => {
     const movingCell = findMovingCell();
     const newBoard = stopCell(movingCell);
+    console.log("g")
     setBoard(newBoard);
   }, [boardUpdated]);
+
+  const dropCell = () => {
+    setInterval(() => {
+      const movingCell = findMovingCell();
+      const newBoard = moveCell(1, 0, movingCell);
+
+      setBoard(newBoard);
+    }, 1000);
+  };
 
   const flingOutOfBoard = (rowIndex: number, cellIndex: number, movingCell: number[][]) => {
     for (let i = 0; i < movingCell.length; i++) {
@@ -48,7 +58,6 @@ const useGame = () => {
   const checkUnderCell = (movingCell: number[][]) => {
     for (let i = 0; i < movingCell.length; i++) {
       if (board[movingCell[i][0] + 1][movingCell[i][1]] === 2) {
-        console.log('ff');
         return true;
       }
     }
@@ -71,6 +80,8 @@ const useGame = () => {
 
   const findMovingCell = () => {
     const movingCell: number[][] = [];
+    console.log("findMovingCell")
+    console.log(board)
 
     board.map((row: number[], rowIndex: number) => {
       row.map((cell, cellIndex: number) => {
@@ -142,12 +153,13 @@ const useGame = () => {
       });
       setBoard(newBoard);
     }
-    setBoardUpdate((prev) => !prev);
+    // setBoardUpdate((prev) => !prev);
   };
 
   return {
     board,
     keyHandler,
+    dropCell,
   };
 };
 

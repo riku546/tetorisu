@@ -9,13 +9,13 @@
 .board {
   display: flex;
   flex-wrap: wrap;
-  width: 400px;
-  height: 800px;
+  width: 414px;
+  height: 814px;
+  background-color: black;
+  border: 7px solid gray;
 }
 
 .cell {
   width: 40px;
   height: 40px;
-  background-color: gray;
-  border: 1px solid black;
 }
