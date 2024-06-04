@@ -29,6 +29,19 @@ const useGame = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
+  const stopMovingCell = (rowIndex: number, cellIndex: number, movingCell: number[][]) => {
+    for (let i = 0; i < movingCell.length; i++) {
+      const extendRowIndex = movingCell[i][0] + rowIndex;
+      const extendCellIndex = movingCell[i][1] + cellIndex;
+      console.log(extendRowIndex, extendCellIndex);
+      if (extendCellIndex < 0 || extendCellIndex > 9 || extendRowIndex < 0 || extendRowIndex > 19) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   const findMovingCell = () => {
     const movingCell: number[][] = [];
 
@@ -45,13 +58,6 @@ const useGame = () => {
   };
 
   const moveCell = (rowIndex: number, cellIndex: number, movingCell: number[][]) => {
-    for (let i = 0; i < movingCell.length; i++) {
-      const extendRowIndex = movingCell[i][0] + rowIndex;
-      const extendCellIndex = movingCell[i][1] + cellIndex;
-      if (extendRowIndex < 0 || extendRowIndex > 19 || extendCellIndex < 0 || extendCellIndex > 9)
-        return;
-    }
-
     const newBoard = structuredClone(board);
     movingCell.map(([row, cell]: number[]) => {
       newBoard[row][cell] = 0;
@@ -72,16 +78,22 @@ const useGame = () => {
 
     if (keyValue === 'ArrowDown') {
       const movingCell = findMovingCell();
-      const newBoard = moveCell(1, 0, movingCell);
-      setBoard(newBoard);
+      if (!stopMovingCell(1, 0, movingCell)) {
+        const newBoard = moveCell(1, 0, movingCell);
+        setBoard(newBoard);
+      }
     } else if (keyValue === 'ArrowLeft') {
       const movingCell = findMovingCell();
-      const newBoard = moveCell(0, -1, movingCell);
-      setBoard(newBoard);
+      if (!stopMovingCell(0, -1, movingCell)) {
+        const newBoard = moveCell(0, -1, movingCell);
+        setBoard(newBoard);
+      }
     } else if (keyValue === 'ArrowRight') {
       const movingCell = findMovingCell();
-      const newBoard = moveCell(0, 1, movingCell);
-      setBoard(newBoard);
+      if (!stopMovingCell(0, 1, movingCell)) {
+        const newBoard = moveCell(0, 1, movingCell);
+        setBoard(newBoard);
+      }
     }
   };
 
