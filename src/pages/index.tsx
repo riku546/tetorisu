@@ -1,55 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import React from 'react';
 import styles from './index.module.css';
-import { headers } from 'next/headers';
-
-const keyHandler = (e) => {
-  const keyValue = e.code;
-  console.log(e.code);
-  if (keyValue === 'ArrowDown') {
-    console.log('hh');
-  } else if (keyValue === 'ArrowLeft') {
-    console.log('gg');
-  } else if (keyValue === 'ArrowRight') {
-    console.log('tt');
-  }
-};
+import useGame from '../components/useGame';
 
 const Home = () => {
-  
+  const { board, keyHandler } = useGame();
+
   useEffect(() => {
     window.addEventListener('keydown', keyHandler);
 
     return () => {
       window.removeEventListener('keydown', keyHandler);
     };
-  }, []);
-
-  // ArrowLeft
-  // ArrowDown
-  //  ArrowRigh
-
-  const [board, setBoard] = useState([
-    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
+  }, [keyHandler]);
 
   return (
     <div className={styles.container}>
