@@ -4,7 +4,7 @@ import styles from './index.module.css';
 import useGame from '../components/useGame';
 
 const Home = () => {
-  const { board, keyHandler, autoDropCell } = useGame();
+  const { board, keyHandler, autoDropCell, firstCreateCell } = useGame();
 
   useEffect(() => {
     window.addEventListener('keydown', keyHandler);
@@ -17,11 +17,24 @@ const Home = () => {
   return (
     <>
       <div className={styles.container}>
+        {board.flat().every((cell) => cell === 0) ? (
+          <div
+            onClick={() => {
+              autoDropCell();
+              firstCreateCell();
+            }}
+            className={styles.button}
+          >
+            start
+          </div>
+        ) : (
+          <div className={styles.button}>stop</div>
+        )}
         <div className={styles.board}>
           {board.map((row: number[], rowIndex: number) =>
             row.map((cell, cellIndex) => (
               <div
-                onClick={autoDropCell}
+                onClick={() => {}}
                 key={rowIndex - cellIndex}
                 className={styles.cell}
                 style={{ backgroundColor: cell === 0 ? '' : 'green' }}

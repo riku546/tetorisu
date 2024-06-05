@@ -38,13 +38,33 @@ const useGame = () => {
   useEffect(() => {
     const movingCell = findMovingCell(board);
     const newBoard = stopCell(movingCell, board);
-    
+    const solidCellCount_currentBoard = newBoard.flat().filter((cell) => cell === 2).length;
+    if (solidCellCount < solidCellCount_currentBoard) {
+      setSolidCellCount(solidCellCount_currentBoard);
+      newBoard[0][4] = 1;
+      newBoard[0][5] = 1;
+      newBoard[1][4] = 1;
+      newBoard[1][5] = 1;
+    }
+
     setBoard(newBoard);
   }, [boardUpdated]);
 
-
+  const firstCreateCell = () => {
+    const isFirstClick = board.flat().every((cell) => cell === 0);
+    if (isFirstClick) {
+      const newBoard = structuredClone(board);
+      newBoard[0][4] = 1;
+      newBoard[0][5] = 1;
+      newBoard[1][4] = 1;
+      newBoard[1][5] = 1;
+      setBoard(newBoard);
+    }
+  };
 
   const autoDropCell = () => {
+    const isFirstClick = board.flat().every((cell) => cell === 0);
+    if (!isFirstClick) return;
     setInterval(() => {
       setBoard((prev) => {
         const movingCell = findMovingCell(prev);
@@ -105,6 +125,7 @@ const useGame = () => {
     board,
     keyHandler,
     autoDropCell,
+    firstCreateCell,
   };
 };
 
