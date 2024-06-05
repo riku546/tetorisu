@@ -61,7 +61,6 @@ const useGame = () => {
   ]);
 
   const [boardUpdated, setBoardUpdate] = useState(false);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const movingCell = findMovingCell(board);
@@ -69,17 +68,7 @@ const useGame = () => {
     setBoard(newBoard);
   }, [boardUpdated]);
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     console.log('ww');
-  //     setBoard((prev) => {
-  //       console.log('gg');
-  //       const movingCell = findMovingCell(prev);
-  //       const newBoard = moveCell(1, 0, movingCell, prev);
-  //       return newBoard;
-  //     });
-  //   }, 5000);
-  // }, []);
+
 
   const autoDropCell = () => {
     setInterval(() => {
@@ -88,11 +77,8 @@ const useGame = () => {
         const movingCell = findMovingCell(prev);
         const newBoard = moveCell(1, 0, movingCell, prev);
         return newBoard;
-        // setCount((prev) => {
-        //   console.log('tt');
-        //   return prev + 1;
-        // });
       });
+      setBoardUpdate((prev) => !prev);
     }, 1000);
   };
 
