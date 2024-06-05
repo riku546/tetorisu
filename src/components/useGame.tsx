@@ -9,8 +9,8 @@ import {
 
 const useGame = () => {
   const [board, setBoard] = useState([
-    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -32,18 +32,21 @@ const useGame = () => {
   ]);
 
   const [boardUpdated, setBoardUpdate] = useState(false);
+  const [solidCellCount, setSolidCellCount] = useState(0);
 
-  //そこにブロックが到達したときに、止める処理
+  //ブロックを止める処理
   useEffect(() => {
     const movingCell = findMovingCell(board);
     const newBoard = stopCell(movingCell, board);
+    
     setBoard(newBoard);
   }, [boardUpdated]);
+
+
 
   const autoDropCell = () => {
     setInterval(() => {
       setBoard((prev) => {
-        console.log('gg');
         const movingCell = findMovingCell(prev);
         const newBoard = moveCell(1, 0, movingCell, prev);
         return newBoard;
