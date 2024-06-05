@@ -1,5 +1,41 @@
 import { useEffect, useState } from 'react';
 
+const findMovingCell = (board: number[][]) => {
+  const movingCell: number[][] = [];
+
+  board.map((row: number[], rowIndex: number) => {
+    row.map((cell, cellIndex: number) => {
+      if (cell === 1) {
+        movingCell.push([rowIndex, cellIndex]);
+      }
+    });
+  });
+
+  return movingCell;
+};
+
+const moveCell = (
+  rowIndex: number,
+  cellIndex: number,
+  movingCell: number[][],
+  board: number[][],
+) => {
+  const newBoard = structuredClone(board);
+  console.log(rowIndex);
+  movingCell.map(([row, cell]: number[]) => {
+    newBoard[row][cell] = 0;
+  });
+
+  movingCell.map(([row, cell]: number[]) => {
+    const extendRowIndex = row + rowIndex;
+    const extendCellIndex = cell + cellIndex;
+
+    newBoard[extendRowIndex][extendCellIndex] = 1;
+  });
+
+  return newBoard;
+};
+
 const useGame = () => {
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
@@ -19,26 +55,44 @@ const useGame = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 2, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
   const [boardUpdated, setBoardUpdate] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const movingCell = findMovingCell();
+    const movingCell = findMovingCell(board);
     const newBoard = stopCell(movingCell);
-    console.log("g")
     setBoard(newBoard);
   }, [boardUpdated]);
 
-  const dropCell = () => {
-    setInterval(() => {
-      const movingCell = findMovingCell();
-      const newBoard = moveCell(1, 0, movingCell);
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     console.log('ww');
+  //     setBoard((prev) => {
+  //       console.log('gg');
+  //       const movingCell = findMovingCell(prev);
+  //       const newBoard = moveCell(1, 0, movingCell, prev);
+  //       return newBoard;
+  //     });
+  //   }, 5000);
+  // }, []);
 
-      setBoard(newBoard);
+  const autoDropCell = () => {
+    setInterval(() => {
+      setBoard((prev) => {
+        console.log('gg');
+        const movingCell = findMovingCell(prev);
+        const newBoard = moveCell(1, 0, movingCell, prev);
+        return newBoard;
+        // setCount((prev) => {
+        //   console.log('tt');
+        //   return prev + 1;
+        // });
+      });
     }, 1000);
   };
 
@@ -78,66 +132,34 @@ const useGame = () => {
     return newBoard;
   };
 
-  const findMovingCell = () => {
-    const movingCell: number[][] = [];
-    console.log("findMovingCell")
-    console.log(board)
-
-    board.map((row: number[], rowIndex: number) => {
-      row.map((cell, cellIndex: number) => {
-        if (cell === 1) {
-          movingCell.push([rowIndex, cellIndex]);
-        }
-      });
-    });
-
-    return movingCell;
-  };
-
-  const moveCell = (rowIndex: number, cellIndex: number, movingCell: number[][]) => {
-    const newBoard = structuredClone(board);
-    movingCell.map(([row, cell]: number[]) => {
-      newBoard[row][cell] = 0;
-    });
-
-    movingCell.map(([row, cell]: number[]) => {
-      const extendRowIndex = row + rowIndex;
-      const extendCellIndex = cell + cellIndex;
-
-      newBoard[extendRowIndex][extendCellIndex] = 1;
-    });
-
-    return newBoard;
-  };
-
   const keyHandler = (e) => {
     const keyValue = e.code;
 
     if (keyValue === 'ArrowDown') {
-      const movingCell = findMovingCell();
-      const board = stopCell(movingCell);
-      if (board.flat().some((cell) => cell === 2)) {
-        setBoard(board);
+      const movingCell = findMovingCell(board);
+      const newBoard = stopCell(movingCell);
+      if (newBoard.flat().some((cell) => cell === 2)) {
+        setBoard(newBoard);
       }
 
       if (!flingOutOfBoard(1, 0, movingCell)) {
-        const newBoard = moveCell(1, 0, movingCell);
+        const newBoard = moveCell(1, 0, movingCell, board);
         setBoard(newBoard);
       }
     } else if (keyValue === 'ArrowLeft') {
-      const movingCell = findMovingCell();
+      const movingCell = findMovingCell(board);
       if (!flingOutOfBoard(0, -1, movingCell)) {
-        const newBoard = moveCell(0, -1, movingCell);
+        const newBoard = moveCell(0, -1, movingCell, board);
         setBoard(newBoard);
       }
     } else if (keyValue === 'ArrowRight') {
-      const movingCell = findMovingCell();
+      const movingCell = findMovingCell(board);
       if (!flingOutOfBoard(0, 1, movingCell)) {
-        const newBoard = moveCell(0, 1, movingCell);
+        const newBoard = moveCell(0, 1, movingCell, board);
         setBoard(newBoard);
       }
     } else if (keyValue === 'Space') {
-      const movingCell = findMovingCell();
+      const movingCell = findMovingCell(board);
       if (movingCell.length === 0) return;
       const newBoard = structuredClone(board);
       movingCell.map((row) => {
@@ -153,13 +175,13 @@ const useGame = () => {
       });
       setBoard(newBoard);
     }
-    // setBoardUpdate((prev) => !prev);
+    setBoardUpdate((prev) => !prev);
   };
 
   return {
     board,
     keyHandler,
-    dropCell,
+    autoDropCell,
   };
 };
 
