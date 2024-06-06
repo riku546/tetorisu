@@ -35,10 +35,15 @@ const useGame = () => {
   const [boardUpdated, setBoardUpdate] = useState(false);
   const [solidCellCount, setSolidCellCount] = useState(0);
 
-  //ブロックを止める処理
+  //ブロックを止める処理  ブロック生成
   useEffect(() => {
     const movingCell = findMovingCell(board);
     const newBoard = stopCell(movingCell, board);
+    if (board[0][3] !== 0 || board[0][4] !== 0 || board[0][5] !== 0 || board[0][6] !== 0) {
+      alert('fin');
+      window.location.reload();
+    }
+
     const solidCellCount_currentBoard = newBoard.flat().filter((cell) => cell === 2).length;
     if (solidCellCount < solidCellCount_currentBoard) {
       setSolidCellCount(solidCellCount_currentBoard);
