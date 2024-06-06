@@ -80,7 +80,7 @@ const useGame = () => {
   const keyHandler = (e) => {
     const keyValue = e.code;
 
-    if (keyValue === 'ArrowDown') {
+    if (keyValue === 'ArrowDown' || keyValue === 'KeyS') {
       const movingCell = findMovingCell(board);
       const newBoard = stopCell(movingCell, board);
       if (newBoard.flat().some((cell) => cell === 2)) {
@@ -91,13 +91,13 @@ const useGame = () => {
         const newBoard = moveCell(1, 0, movingCell, board);
         setBoard(newBoard);
       }
-    } else if (keyValue === 'ArrowLeft') {
+    } else if (keyValue === 'ArrowLeft' || keyValue === 'KeyA') {
       const movingCell = findMovingCell(board);
       if (!flingOutOfBoard(0, -1, movingCell)) {
         const newBoard = moveCell(0, -1, movingCell, board);
         setBoard(newBoard);
       }
-    } else if (keyValue === 'ArrowRight') {
+    } else if (keyValue === 'ArrowRight' || keyValue === 'KeyD') {
       const movingCell = findMovingCell(board);
       if (!flingOutOfBoard(0, 1, movingCell)) {
         const newBoard = moveCell(0, 1, movingCell, board);
