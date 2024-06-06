@@ -1,3 +1,5 @@
+import blocks from '../block';
+
 const findMovingCell = (board: number[][]) => {
   const movingCell: number[][] = [];
 
@@ -38,7 +40,7 @@ const flingOutOfBoard = (rowIndex: number, cellIndex: number, movingCell: number
     const extendRowIndex = movingCell[i][0] + rowIndex;
     const extendCellIndex = movingCell[i][1] + cellIndex;
 
-    if (extendCellIndex < 0 || extendCellIndex > 9 || extendRowIndex < 0 || extendRowIndex > 19  ) {
+    if (extendCellIndex < 0 || extendCellIndex > 9 || extendRowIndex < 0 || extendRowIndex > 19) {
       return true;
     }
   }
@@ -69,4 +71,11 @@ const stopCell = (movingCell: number[][], board: number[][]) => {
   return newBoard;
 };
 
-export { findMovingCell, moveCell, flingOutOfBoard, checkUnderCell, stopCell };
+const createCell = () => {
+  const randomNum = Math.floor(Math.random() * 7);
+  const block = blocks[randomNum];
+  console.log(block);
+  return block;
+};
+
+export { findMovingCell, moveCell, flingOutOfBoard, checkUnderCell, stopCell, createCell };

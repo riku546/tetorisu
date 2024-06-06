@@ -28,7 +28,9 @@ const Home = () => {
             start
           </div>
         ) : (
-          <div className={styles.button} onClick={()=>window.location.reload()}>restart</div>
+          <div className={styles.button} onClick={() => window.location.reload()}>
+            restart
+          </div>
         )}
         <div className={styles.board}>
           {board.map((row: number[], rowIndex: number) =>

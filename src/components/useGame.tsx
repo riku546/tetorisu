@@ -5,6 +5,7 @@ import {
   flingOutOfBoard,
   checkUnderCell,
   stopCell,
+  createCell,
 } from '../functions/functions';
 
 const useGame = () => {
@@ -41,10 +42,10 @@ const useGame = () => {
     const solidCellCount_currentBoard = newBoard.flat().filter((cell) => cell === 2).length;
     if (solidCellCount < solidCellCount_currentBoard) {
       setSolidCellCount(solidCellCount_currentBoard);
-      newBoard[0][4] = 1;
-      newBoard[0][5] = 1;
-      newBoard[1][4] = 1;
-      newBoard[1][5] = 1;
+      const block = createCell();
+      block.map((row) => {
+        newBoard[row[0]][row[1]] = 1;
+      });
     }
 
     setBoard(newBoard);
@@ -54,10 +55,11 @@ const useGame = () => {
     const isFirstClick = board.flat().every((cell) => cell === 0);
     if (isFirstClick) {
       const newBoard = structuredClone(board);
-      newBoard[0][4] = 1;
-      newBoard[0][5] = 1;
-      newBoard[1][4] = 1;
-      newBoard[1][5] = 1;
+
+      const block = createCell();
+      block.map((row) => {
+        newBoard[row[0]][row[1]] = 1;
+      });
       setBoard(newBoard);
     }
   };
