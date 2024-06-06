@@ -40,7 +40,7 @@ const flingOutOfBoard = (rowIndex: number, cellIndex: number, movingCell: number
     const extendRowIndex = movingCell[i][0] + rowIndex;
     const extendCellIndex = movingCell[i][1] + cellIndex;
 
-    if (extendCellIndex < 0 || extendCellIndex > 9 || extendRowIndex < 0 || extendRowIndex > 19) {
+    if (extendCellIndex < 0 || extendCellIndex > 9 || extendRowIndex < 0 || extendRowIndex > 20) {
       return true;
     }
   }
@@ -62,7 +62,7 @@ const stopCell = (movingCell: number[][], board: number[][]) => {
   const newBoard = structuredClone(board);
   const newMovingCell = structuredClone(movingCell);
   newMovingCell.map((row: number[]) => {
-    if (row[0] + 1 > 19 || newBoard[row[0] + 1][row[1]] === 2) {
+    if (row[0] + 1 > 20 || newBoard[row[0] + 1][row[1]] === 2) {
       newMovingCell.map((row: number[]) => {
         newBoard[row[0]][row[1]] = 2;
       });

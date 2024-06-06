@@ -10,11 +10,9 @@
 
 .board {
   display: flex;
-  flex-wrap: wrap;
-  width: 414px;
-  height: 814px;
-  background-color: black;
-  border: 7px solid gray;
+  flex-direction: column;
+
+  border-bottom: 7px solid gray;
 }
 
 .cell {
@@ -28,7 +26,14 @@
   padding: 15px 40px;
   border-radius: 10px;
 }
-.button:hover{
+.button:hover {
   opacity: 0.5;
   cursor: pointer;
+}
+
+.boardRow {
+  display: flex;
+  background-color: black;
+  border-right: 7px solid gray;
+  border-left: 7px solid gray;
 }

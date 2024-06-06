@@ -33,16 +33,25 @@ const Home = () => {
           </div>
         )}
         <div className={styles.board}>
-          {board.map((row: number[], rowIndex: number) =>
-            row.map((cell, cellIndex) => (
-              <div
-                onClick={() => {}}
-                key={rowIndex - cellIndex}
-                className={styles.cell}
-                style={{ backgroundColor: cell === 0 ? '' : 'green' }}
-              />
-            )),
-          )}
+          {board.map((row: number[], rowIndex: number) => (
+            <div
+              className={styles.boardRow}
+              key={rowIndex}
+              style={{
+                opacity: rowIndex === 0 ? 0 : '',
+                borderTop: rowIndex === 1 ? `7px solid gray` : '',
+              }}
+            >
+              {row.map((cell, cellIndex) => (
+                <div
+                  key={rowIndex - cellIndex}
+                  className={styles.cell}
+                  style={{ backgroundColor: cell === 0 ? '' : 'green' }}
+                />
+              ))}
+              ,
+            </div>
+          ))}
         </div>
       </div>
     </>

@@ -30,6 +30,7 @@ const useGame = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
   const [boardUpdated, setBoardUpdate] = useState(false);
@@ -39,10 +40,6 @@ const useGame = () => {
   useEffect(() => {
     const movingCell = findMovingCell(board);
     const newBoard = stopCell(movingCell, board);
-    if (board[0][3] !== 0 || board[0][4] !== 0 || board[0][5] !== 0 || board[0][6] !== 0) {
-      alert('fin');
-      window.location.reload();
-    }
 
     const solidCellCount_currentBoard = newBoard.flat().filter((cell) => cell === 2).length;
     if (solidCellCount < solidCellCount_currentBoard) {
