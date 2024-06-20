@@ -6,6 +6,7 @@ import {
   checkUnderCell,
   stopCell,
   createCell,
+  DropLine,
 } from '../functions/functions';
 
 const useGame = () => {
@@ -36,19 +37,62 @@ const useGame = () => {
   const [boardUpdated, setBoardUpdate] = useState(false);
   const [solidCellCount, setSolidCellCount] = useState(0);
 
-  //ブロックを止める処理  ブロック生成
   useEffect(() => {
+    //ブロックを止める処理
     const movingCell = findMovingCell(board);
     const newBoard = stopCell(movingCell, board);
 
     const solidCellCount_currentBoard = newBoard.flat().filter((cell) => cell === 2).length;
+    //ブロック生成
     if (solidCellCount < solidCellCount_currentBoard) {
       setSolidCellCount(solidCellCount_currentBoard);
+      //終了処理
+      if (
+        newBoard[1][3] === 2 ||
+        newBoard[1][4] === 2 ||
+        newBoard[1][5] === 2 ||
+        newBoard[1][6] === 2
+      ) {
+        alert('fin');
+        window.location.reload();
+      }
       const block = createCell();
       block.map((row) => {
         newBoard[row[0]][row[1]] = 1;
       });
     }
+
+    //横1列消す処理
+    for (let i = 0; i < board.length; i++) {
+      if (newBoard[i].every((cell) => cell === 2)) {
+        for (let x = 0; x < newBoard[0].length; x++) {
+          newBoard[i][x] = 0;
+        }
+
+        setSolidCellCount((prev) => prev - 10);
+      }
+    }
+
+    //横１列消えたら、上のブロックを落とす
+    // newBoard.map((row: number[], rowIndex: number) => {
+    //   if (row.every((cell) => cell === 0)) { 
+    //     const dropingCell = DropLine(newBoard);
+
+    //     dropingCell.map((row) => {
+    //       newBoard[row[0]][row[1]] = 0;
+    //     });
+
+    //     while (!flingOutOfBoard(1, 0, dropingCell) && !checkUnderCell(dropingCell, newBoard)) {
+    //       dropingCell.map((row: number[]) => {
+    //         row[0] += 1;
+    //       });
+    //     }
+
+    //     dropingCell.map((row) => {
+    //       newBoard[row[0]][row[1]] = 2;
+    //     });
+    //   }
+    // });
 
     setBoard(newBoard);
   }, [boardUpdated]);

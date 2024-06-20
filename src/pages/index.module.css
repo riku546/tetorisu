@@ -1,3 +1,4 @@
+/* stylelint-disable prettier/prettier */
 .container {
   display: flex;
   flex-direction: column;
@@ -11,7 +12,6 @@
 .board {
   display: flex;
   flex-direction: column;
-
   border-bottom: 7px solid gray;
 }
 
@@ -21,14 +21,15 @@
 }
 
 .button {
-  background-color: black;
-  color: white;
   padding: 15px 40px;
+  color: white;
+  background-color: black;
   border-radius: 10px;
 }
+
 .button:hover {
-  opacity: 0.5;
   cursor: pointer;
+  opacity: 0.5;
 }
 
 .boardRow {
